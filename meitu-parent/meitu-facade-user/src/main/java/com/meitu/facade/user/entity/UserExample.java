@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class UserExample extends BaseEntityExample {
 
+    private static final long serialVersionUID = 2075720904915150973L;
+
     protected String orderByClause;
 
     protected boolean distinct;

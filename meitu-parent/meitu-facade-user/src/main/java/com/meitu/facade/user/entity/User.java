@@ -7,6 +7,8 @@ import com.meitu.common.entity.BaseEntity;
  */
 public class User extends BaseEntity {
 
+    private static final long serialVersionUID = -7843181386498556863L;
+
     private Integer id;
 
     private String name;

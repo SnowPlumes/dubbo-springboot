@@ -2,11 +2,13 @@ package com.meitu.web.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.meitu.common.dto.JsonResponse;
+import com.meitu.common.redis.service.UserCacheService;
 import com.meitu.facade.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    @Reference
+    @Reference(timeout = 12000)
     private UserService userService;
+
+    @Autowired
+    private UserCacheService userCacheService;
 
     @ApiOperation(value = "获取用户")
     @ApiImplicitParams({
@@ -33,6 +38,8 @@ public class UserController {
         json.setCode(1);
         json.setMsg("success");
         json.setResults(userService.getUser(page, pageSize));
+        userCacheService.addUserInfoCache("233", "zhangsang");
+        userCacheService.addUserInfoCache("2333", "lishi");
         return json;
     }
 }
