@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>dubbo-parent</artifactId>
+        <groupId>me.lv</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>web-manager</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.lv</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>me.lv</groupId>
+            <artifactId>common-config</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>me.lv</groupId>
+            <artifactId>facade-user</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <!--配置资源配置文件有哪些？-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <active>dev</active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <active>test</active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <active>prod</active>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>manager</finalName>
+        <resources>
+            <!-- 所有环境配置文件过滤 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>profiles/**/*</exclude>
+                    <exclude>profiles/test/*</exclude>
+                    <exclude>profiles/prod/*</exclude>
+                    <exclude>profiles/dev/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/profiles/${active}</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
